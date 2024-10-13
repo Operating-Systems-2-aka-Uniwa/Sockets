@@ -1,8 +1,8 @@
 /*
-Εργαστήριο ΛΣ 2 / Άσκηση 2 / Ερώτημα 3 / 2021-22
-Ονοματεπώνυμο: Αθανασίου Βασίλειος Ευάγγελος
-ΑΜ: 19390005
-Τρόπος μεταγλώττισης: gcc -o LS2-19390005-Δ4-Β-2-3-server LS2-19390005-Δ4-Β-2-3-server.c 
+Laboratory OS 2 / Exercise 2 / Question 3 / 2021-22
+Name: Athanasiou Vasileios Evangelos
+Student ID: 19390005
+Compilation Command: gcc -o server server.c 
 */
 
 #include <stdio.h>
@@ -31,7 +31,7 @@ int main (int argc, char *argv[])
     int cnt_seq;
     int seq[100];
     
-    sock = socket (AF_UNIX, SOCK_STREAM, 0);                                                      /* Κλήση της συνάρτησης "socket ()" που εισάγεται από την βιβλιοθήκη "sys/socket.h" (γραμμή 11), όπου δημιουργεί το "socket" του "client", το οποίο θα βρίσκεται στο "domain" του "AF_UNIX" και θα είναι τύπου "SOCKET_STREAM". Ο "file descriptor" του "server" αποθηκεύεται στην μεταβλητή "sock". */                                          // Δ
+    sock = socket (AF_UNIX, SOCK_STREAM, 0);                                                      /* Call to the "socket()" function imported from the "sys/socket.h" library (line 11), which creates the "socket" of the "client", which will be in the "AF_UNIX" domain and will be of type "SOCK_STREAM". The file descriptor of the "server" is stored in the variable "sock". */
     if (sock < 0)                                                                                               
     {
         perror ("socket () failed to execute");
@@ -39,20 +39,20 @@ int main (int argc, char *argv[])
     }
     server.sun_family = AF_UNIX;
     strcpy (server.sun_path, BIND);
-    if (bind (sock, (struct sockaddr *) &server, sizeof (struct sockaddr_un)) < 0)                 /* Σύνδεση του "socket" του "server" με μια διεύθυνση που βρίσκεται στο "file system", ώστε να είναι προσβάσιμη για την σύνδεση των "sockets" των "clients" */
+    if (bind (sock, (struct sockaddr *) &server, sizeof (struct sockaddr_un)) < 0)                 /* Bind the "server's socket" to an address located in the "file system" so it can be accessed for connecting "clients' sockets". */
     {
         perror ("bind () failed to execute");
         exit (1);
     }
     printf ("Waiting for connection...\n\n");
-    if (listen (sock, 5) < 0)                                                                       /* Αναμονή του "server" για σύνδεση με κάποιον "client". */
+    if (listen (sock, 5) < 0)                                                                       /* Wait for the "server" to connect to a "client". */
     {
         perror ("listen () failed to execute");
         exit (1);
     }
     while (1)
     {
-        accept_sock = accept (sock, NULL, NULL);                                                    /* Αποδοχή σύνδεσης του "server" με κάποιον "client" και δημιουργία νέου "socket" για την επικοινωνία μεταξύ τους. */
+        accept_sock = accept (sock, NULL, NULL);                                                    /* Accept connection from the "server" to a "client" and create a new socket for communication between them. */
         if (accept_sock < 0)
         {
             perror ("accept () failed to execute");
@@ -63,8 +63,8 @@ int main (int argc, char *argv[])
         printf ("Hello from client #%d\n\n", cnt_client);
         do
         {
-            read_seq = read (accept_sock, seq, 100 * sizeof (int));                                /* Ο "server" διαβάζει την ακολουθία με τους ακέραιους αριθμούς που του έστειλε ο "client" που συνδέθηκε, για έλεγχο. */
-            N = read_seq / 4;                                                                      // Το μέγεθος της ακολουθίας που έστειλε ο "client" και διάβασε ο "server".  
+            read_seq = read (accept_sock, seq, 100 * sizeof (int));                                /* The "server" reads the sequence of integers sent by the connected "client" for checking. */
+            N = read_seq / 4;                                                                      // The size of the sequence sent by the "client" and read by the "server".  
             if (read_seq < 0)
             {
                 perror ("read () failed to execute");
@@ -72,7 +72,7 @@ int main (int argc, char *argv[])
             }
             else
             {
-                if (read_seq == 0)                                                                  /* Εφόσον, δεν δέχεται άλλα "bytes" από τον "client" για να διαβάσει, τερματίζει την σύνδεση. */
+                if (read_seq == 0)                                                                  /* If it does not receive more "bytes" from the "client" to read, it terminates the connection. */
                 {
                     printf ("Ending connection with client #%d\n", cnt_client);
                     printf ("-------------------------------------------------------------------\n");
@@ -82,15 +82,15 @@ int main (int argc, char *argv[])
                 {
                     cnt_seq++;
                     printf ("Sequence #%d\n\n", cnt_seq);
-                    Print_Sequence (seq, N);                                                        // Εκτύπωση της ακολουθίας (γραμμές 132-137).
-                    Sort_Sequence (seq, N);                                                         // Ταξινόμηση κατά αύξουσα σειρά της ακολουθίας (γραμμές 140-152).
+                    Print_Sequence (seq, N);                                                        // Print the sequence (lines 132-137).
+                    Sort_Sequence (seq, N);                                                         // Sort the sequence in ascending order (lines 140-152).
                     printf ("Sequence #%d is being sorted...\n\n", cnt_seq);
-                    Print_Sequence (seq, N);                                                        // Εκτύπωση της πλέον ταξινομημένης κατά αύξουσα σειρά ακολουθίας (γραμμές 132-137).
-                    is_fibo = Check_Fibonacci (seq, N);                                             // Έλεγχος για το αν πρόκειται για την ακολουθία "Fibonacci" (γραμμές 155-167).
+                    Print_Sequence (seq, N);                                                        // Print the now sorted sequence in ascending order (lines 132-137).
+                    is_fibo = Check_Fibonacci (seq, N);                                             // Check if the sequence is a "Fibonacci" sequence (lines 155-167).
                     printf ("Server is sending a message about sequence #%d to client #%d...\n\n", cnt_seq, cnt_client);
                     if (is_fibo)
                     {
-                        if (write (accept_sock, MSG_TRUE, strlen (MSG_TRUE) + 1) < 0)               /* Αποστολή μηνύματος στον "client" για την περίπτωση που η ακολουθία είναι αυτή του "Fibonacci" */
+                        if (write (accept_sock, MSG_TRUE, strlen (MSG_TRUE) + 1) < 0)               /* Send a message to the "client" if the sequence is a "Fibonacci" sequence. */
                         {
                             perror ("write () failed to execute");
                             exit (1);
@@ -98,7 +98,7 @@ int main (int argc, char *argv[])
                     }
                     else
                     {
-                        if (write (accept_sock, MSG_FALSE, strlen (MSG_FALSE) + 1) < 0)             /* Αποστολή μηνύματος στον "client" για την περίπτωση που η ακολουθία δεν είναι αυτή του "Fibonacci" */
+                        if (write (accept_sock, MSG_FALSE, strlen (MSG_FALSE) + 1) < 0)             /* Send a message to the "client" if the sequence is not a "Fibonacci" sequence. */
                         {
                             perror ("write () failed to execute");
                             exit (1);
@@ -108,18 +108,18 @@ int main (int argc, char *argv[])
             }
         }
         while (read_seq > 0);
-        if (close (accept_sock) != 0)                                                               /* Κλείσιμο του "socket" επικοινωνίας, αφού επιτεύχθη η σύνδεση ανάμεσα σε "client" και "server". */
+        if (close (accept_sock) != 0)                                                               /* Close the communication socket after the connection between "client" and "server" is established. */
         {
             perror ("close () failed to execute");
             exit (1);
         }
     }
-    if (close (sock) != 0)                                                                          /* Κλείσιμο του "socket" του "server". */
+    if (close (sock) != 0)                                                                          /* Close the "server's socket". */
     {
         perror ("close () failed to execute");
         exit (1);
     }
-    if (unlink (BIND) != 0)                                                                         /* Αποσύνδεση του "socket" του "server" από την διεύθυνση που βρίσκεται στο "file system", ώστε να είναι προσβάσιμη για την σύνδεση των "sockets" των "clients" */
+    if (unlink (BIND) != 0)                                                                         /* Unlink the "server's socket" from the address located in the "file system" so it can be accessible for connecting "clients' sockets". */
     {
         perror ("unlink () failed to execute");
         exit (1);
@@ -166,9 +166,10 @@ int Check_Fibonacci (int Seq[], int N)
     return 1;
 }
 
-/*  ΕΝΔΕΙΚΤΙΚΑ ΤΡΕΞΙΜΑΤΑ
+
+/*  SAMPLE RUNS
     
-    #1 ./LS2-19390005-Δ4-Β-2-3-server
+    #1 ./server
     Waiting for connection...
 
     Hello from client #1

@@ -1,8 +1,8 @@
 /*
-Εργαστήριο ΛΣ 2 / Άσκηση 2 / Ερώτημα 3 / 2021-22
-Ονοματεπώνυμο: Αθανασίου Βασίλειος Ευάγγελος
-ΑΜ: 19390005
-Τρόπος μεταγλώττισης: gcc -o LS2-19390005-Δ4-Β-2-3-client LS2-19390005-Δ4-Β-2-3-client.c 
+Laboratory OS 2 / Exercise 2 / Question 3 / 2021-22
+Name: Athanasiou Vasileios Evangelos
+Student ID: 19390005
+Compilation Command: gcc -o client client.c 
 */
 
 #include <stdio.h>
@@ -14,93 +14,95 @@
 
 int main (int argc, char *argv[])
 {
-    int sock;                                                                                  // Δήλωση του "socket file descriptor".
-/********************************************************************************************* Η διεύθυνση του "socket file descriptor" ********************************************************/
-    struct sockaddr_un server;                                                                 // Δήλωση μίας μεταβλητής τύπου δομής "sockaddr_un" που εισάγεται από την βιβλιοθήκη "sys/un.h" (γραμμή 12), που θα ορίζει την διεύθυνση του "socket" στο "file system".
+    int sock;                                                                                  // Declaration of the "socket file descriptor".
+/********************************************************************************************* The address of the "socket file descriptor" ********************************************************/
+    struct sockaddr_un server;                                                                 // Declaration of a variable of type "sockaddr_un" structure imported from the "sys/un.h" library (line 12), which will define the address of the "socket" in the "file system".
 /***********************************************************************************************************************************************************************************************/
-    int *Seq;                                                                                  // Δήλωση ενός δείκτη τύπου "int *" που θα δείχνει στον πίνακα με τους ακεραίους.
-    int N;                                                                                     // Δήλωση του μεγέθους του πίνακα.
-    int i;                                                                                     // Δήλωση ενός ακέραιου μετρητή για την εκτέλεση βρόχου (γραμμές 61-65).
-    int check;                                                                                 // Δήλωση μιας ακέραιας μεταβλητής που θα περιέχει μία τιμή που θα δηλώνει αν ο "client" επιθυμεί να στείλει στον "server" κι άλλη ακολουθία για έλεγχο ή όχι. 
-    char buf[1024];                                                                            // Δήλωση ενός "buffer" χαρακτήρων για την αποθήκευση του μηνύματος που θα στείλει ο "server" στον "client" για την ακολουθία.
+
+    int *Seq;                                                                                  // Declaration of a pointer of type "int *" that will point to the array of integers.
+    int N;                                                                                     // Declaration of the size of the array.
+    int i;                                                                                     // Declaration of an integer counter for the execution loop (lines 61-65).
+    int check;                                                                                 // Declaration of an integer variable that will contain a value indicating whether the "client" wants to send another sequence for checking to the "server" or not.
+    char buf[1024];                                                                            // Declaration of a character "buffer" for storing the message that will be sent by the "server" to the "client" for the sequence.
     
-    if (argc < 2)                                                                              /* Έλεγχος για τα ορίσματα που δίνονται παραμέτρικα κατά την εντολή εκτέλεση τους προγράμματος του "client". */
+    if (argc < 2)                                                                              /* Check for the parameters passed when executing the "client" program. */
     {
         printf ("Error! Client needs 1 argument.\n");
-        printf ("%s Fibonacci_socket\n", argv[0]);                                             // Τυπώνεται στο κανάλι "stdout" η εντολή που θα πρέπει να εκτελεστεί με την δεύτερη παράμετρο (argv[1]) να είναι η διεύθυνση του "socket" του "server" που είναι στο "File system", ώστε να συνδεθούν οι "clients" με τα "sockets" τους.
-        exit(1);                                                                               // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+        printf ("%s Fibonacci_socket\n", argv[0]);                                             // Prints to the "stdout" the command that should be executed with the second parameter (argv[1]) being the address of the "socket" of the "server" that is in the "File system", so that the "clients" can connect with their "sockets".
+        exit(1);                                                                               // The process terminates with "exit value" 1.
     }
-    sock = socket (AF_UNIX, SOCK_STREAM, 0);                                                   // Κλήση της συνάρτησης "socket ()" που εισάγεται από την βιβλιοθήκη "sys/socket.h" (γραμμή 11), όπου δημιουργεί το "socket" του "client", το οποίο θα βρίσκεται στο "domain" του "AF_UNIX" και θα είναι τύπου "SOCKET_STREAM". Ο "file descriptor" του "client" αποθηκεύεται στην μεταβλητή "sock". 
-    if (sock < 0)                                                                              /* Έλεγχος για επιστροφή τιμής σφάλματος από την "socket ()" στη γραμμή 33. */
+    sock = socket (AF_UNIX, SOCK_STREAM, 0);                                                   // Call of the "socket ()" function imported from the "sys/socket.h" library (line 11), which creates the "socket" of the "client", which will be in the "domain" of "AF_UNIX" and will be of type "SOCKET_STREAM". The "file descriptor" of the "client" is stored in the variable "sock". 
+    if (sock < 0)                                                                              /* Check for error return from the "socket ()" at line 33. */
     {
-        perror ("socket () failed to execute");                                                // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "socket ()".
-        exit (1);                                                                              // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+        perror ("socket () failed to execute");                                                // Prints an error message to the "stderr" for the failure of "socket ()".
+        exit (1);                                                                              // The process terminates with "exit value" 1.
     }
-    server.sun_family = AF_UNIX;                                                               // Εκχώρηση στο χαρακτηριστικό "sun_family" του αντικειμένου τύπου δομής "sockaddr_un", το "domain" που βρίσκεται το "socket".
-    strcpy (server.sun_path, argv[1]);                                                         // Εκχώρηση της διεύθυνση του "socket" του "server" που είναι στο "File system" που δόθηκε παραμετρικά, στο χαρακτηριστικό "sun_path" του αντικειμένου τύπου δομής "sockaddr_un".
-    if (connect (sock, (struct sockaddr *) &server, sizeof (struct sockaddr_un)) < 0)          /* Κλήση της συνάρτησης "connect ()" που εισάγεται από την βιβλιοθήκη "sys/socket.h" (γραμμή 11), που επιτυγχάνει την σύνδεση του "socket" του "client" με το "socket" του "server" και έλεγχος για επιστροφή τιμής σφάλματος.  */
+    server.sun_family = AF_UNIX;                                                               // Assign the "sun_family" attribute of the "sockaddr_un" structure object to the domain in which the "socket" resides.
+    strcpy (server.sun_path, argv[1]);                                                         // Assign the address of the "server's socket" that is in the "File system" provided as a parameter to the "sun_path" attribute of the "sockaddr_un" structure object.
+    if (connect (sock, (struct sockaddr *) &server, sizeof (struct sockaddr_un)) < 0)          /* Call of the "connect ()" function imported from the "sys/socket.h" library (line 11), which achieves the connection of the "client's socket" with the "server's socket" and check for error return.  */
     {
-        if (close (sock) < 0)                                                                  /* Εφόσον, αποτύχει η σύνδεση, καλείται η "close ()" που εισάγεται από την βιβλιοθήκη "sys/socket.h" (γραμμή 11) και κλείνει το "socket" του "client". Επίσης, γίενται έλεγχος για επιστροφή τιμής σφάλματος. */
+        if (close (sock) < 0)                                                                  /* If the connection fails, call "close ()" which is imported from the "sys/socket.h" library (line 11) and close the "client's socket". Also, check for error return. */
         {
-            perror ("close () failed to execute");                                             // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "close ()".
-            exit (1);                                                                          // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+            perror ("close () failed to execute");                                             // Prints an error message to the "stderr" for the failure of "close ()".
+            exit (1);                                                                          // The process terminates with "exit value" 1.
         }
-        perror ("connect () failed to execute");                                               // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "connect ()".
-        exit (1);                                                                              // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+        perror ("connect () failed to execute");                                               // Prints an error message to the "stderr" for the failure of "connect ()".
+        exit (1);                                                                              // The process terminates with "exit value" 1.
     }
-    do                                                                                         /* Βρόχος που ελέγχει την επιθυμία του "client" για αποστολή-παραλαβή δεδομένων από τον "server". */
+    do                                                                                         /* Loop that checks the "client's" desire to send-receive data from the "server". */
     {
         printf ("Input the size of Matrix : ");
-        scanf ("%d", &N);                                                                      // Διαβάζεται από το κανάλι "stdin" και την διεύθυνση της μεταβλητής "N", το μέγεθος της ακολουθίας που θα στείλει στον "server".
-        Seq = (int *) malloc (N * sizeof (int));                                               // Δυναμική δέσμευση μνήμης με την χρήση του δείκτη "Seq" τύπου "int *" για την δημιουργία της ακολουθίας των ακεραίων αριθμών.
-        if (!Seq)                                                                              /* Έλεγχος για το αν ο δείκτης "Seq" δείχνει στο "NULL". */
+        scanf ("%d", &N);                                                                      // Reads from the "stdin" and the address of the variable "N", the size of the sequence to be sent to the "server".
+        Seq = (int *) malloc (N * sizeof (int));                                               // Dynamic memory allocation using the pointer "Seq" of type "int *" for the creation of the sequence of integer numbers.
+        if (!Seq)                                                                              /* Check if the pointer "Seq" points to "NULL". */
         {
-            printf ("Error in allocating heap memory\n");                                      // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη δέσμευση μνήμης στη γραμμή 56.
-            exit (1);                                                                          // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+            printf ("Error in allocating heap memory\n");                                      // Prints an error message to the "stderr" for the failed memory allocation at line 56.
+            exit (1);                                                                          // The process terminates with "exit value" 1.
         }
-        for (i = 0; i < N; i++)                                                                /* Βρόχος για την εισαγωγή των αριθμών στην ακολουθία. */
+        for (i = 0; i < N; i++)                                                                /* Loop for inputting numbers into the sequence. */
         {
             printf ("Seq[%d] : ", i + 1); 
-            scanf ("%d", Seq + i);                                                             // Διαβάζεται από το κανάλι "stdin" οι ακέραιοι αριθμοί που θα συμπεριληφθούν στην ακολουθία που θα σταλθεί στον "server" για έλεγχο.
+            scanf ("%d", Seq + i);                                                             // Reads from the "stdin" the integer numbers that will be included in the sequence to be sent to the "server" for checking.
         }
-        if (write (sock, Seq, N * sizeof (int)) < 0)                                           /* Κλήση της "write ()" που εισάγεται από την βιβλιοθήκη "unistd.h" (γραμμή 13), η οποία γράφει τα "bytes" δεδομένων που θα στείλει ο "client" στον "server", δηλαδή, την ακολουθία με τους ακέραιους αριθμούς και έλεγχος για επιστροφή τιμής σφάλματος. */
+        if (write (sock, Seq, N * sizeof (int)) < 0)                                           /* Call of "write ()" imported from the "unistd.h" library (line 13), which writes the "bytes" of data that the "client" will send to the "server", i.e., the sequence with the integers and check for error return. */
         {
-            perror ("write () failed to execute");                                             // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "write ()".
-            exit (1);                                                                          // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+            perror ("write () failed to execute");                                             // Prints an error message to the "stderr" for the failure of "write ()".
+            exit (1);                                                                          // The process terminates with "exit value" 1.
         }
-        if (read (sock, buf, 1024) < 0)                                                        /* Κλήση της "read ()" που εισάγεται από την βιβλιοθήκη "unistd.h" (γραμμή 13), η οποία διαβάζει τα "bytes" δεδομένων που θα παραλάβει ο "client" από τον "server", δηλαδή, το μήνυμα του "server" για το αν η ακολουθία με τους ακέραιους αριθμούς είναι η ακολουθία "Fibonacci" και έλεγχος για επιστροφή τιμής σφάλματος. */
+        if (read (sock, buf, 1024) < 0)                                                        /* Call of "read ()" imported from the "unistd.h" library (line 13), which reads the "bytes" of data that the "client" will receive from the "server", i.e., the message from the "server" about whether the sequence with integers is the "Fibonacci" sequence and check for error return. */
         {
-            perror ("read () failed to execute");                                              // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "read ()".
-            exit (1);                                                                          // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+            perror ("read () failed to execute");                                              // Prints an error message to the "stderr" for the failure of "read ()".
+            exit (1);                                                                          // The process terminates with "exit value" 1.
         }
         printf ("\n");
-        printf ("Server's message for the sequence given : %s\n\n", buf);                      // Τυπώνεται στο κανάλι "stdout" το μήνυμα του "server" για το αν η ακολουθία με τους ακέραιους αριθμούς είναι η ακολουθία "Fibonacci"
-        free (Seq);                                                                            // Αποδέσμευση μνήμης με την χρήση του δείκτη τύπου "int *" "Seq" που έδειχνε στην ακολουθία με τους ακέραιους αριθμούς.
-        do                                                                                     /* Βρόχος που ελέγχει την επιθυμία του "client" για τερματισμό σύνδεσης με τον "server" ή αποστολής άλλης ακολουθίας για έλεγχο. */
+        printf ("Server's message for the sequence given : %s\n\n", buf);                      // Prints to the "stdout" the message from the "server" about whether the sequence with integers is the "Fibonacci" sequence.
+        free (Seq);                                                                            // Memory deallocation using the pointer type "int *" "Seq" which pointed to the sequence of integers.
+        do                                                                                     /* Loop that checks the "client's" desire to terminate the connection with the "server" or send another sequence for checking. */
         {
             printf ("Send another sequence of integers to server in order to check if is Fibonacci's sequence?\n");
             printf ("Press 1 for Yes\n");
             printf ("Press 0 for No\n");
             printf ("Yes/No : ");
-            scanf ("%d", &check);                                                              // Διαβάζεται από το κανάλι "stdin" ο ακέραιο αριθμός που θα δηλώσει την επιθυμία του χρήστη για τερματισμό σύνδεσης με τον "server" ή αποστολής άλλης ακολουθίας για έλεγχο.
+            scanf ("%d", &check);                                                              // Reads from the "stdin" the integer number that will indicate the user's desire to terminate the connection with the "server" or send another sequence for checking.
             printf ("\n");
         }
-        while (check != 1 && check != 0);                                                       /* Αν ο "client" πληκτρολογήσει την τιμή 1, τότε θα σταλθεί άλλη ακολουθία στον "server" για έλεγχο, ενώ αν πληκτρολογήσει την τιμή 0, τότε τερματίζει τη σύνδεση του με τον "server". Οποιαδήποτε άλλη ακέραια τιμή εισαχθεί, θα αγνοηθεί. */
+        while (check != 1 && check != 0);                                                       /* If the "client" types the value 1, then another sequence will be sent to the "server" for checking, while if they type the value 0, then the connection will be terminated. Any other integer value entered will be ignored. */
     }
-    while (check == 1);                                                                         /* Έλεγχος για το αν ο "client" επιθυμεί να στείλει άλλη ακολουθία στον "server" για έλεγχο. */
+    while (check == 1);                                                                         /* Check if the "client" wishes to send another sequence to the "server" for checking. */
     
-    if (close (sock) < 0)                                                                       /* Εφόσον, αποτύχει η σύνδεση, καλείται η "close ()" που εισάγεται από την βιβλιοθήκη "sys/socket.h" (γραμμή 11) και κλείνει το "socket" του "client". Επίσης, γίενται έλεγχος για επιστροφή τιμής σφάλματος. */
+    if (close (sock) < 0)                                                                       /* If the connection fails, call "close ()" imported from the "sys/socket.h" library (line 11) and close the "client's socket". Also, check for error return. */
     {
-        perror ("close () failed to execute");                                                  // Τυπώνεται στο κανάλι του "stderr" ένα μήνυμα λάθους για την αποτυχημένη εκτέλεση της "close ()".
-        exit (1);                                                                               // Η διεργασία τερματίζεται με "exit value" την τιμή 1.
+        perror ("close () failed to execute");                                                  // Prints an error message to the "stderr" for the failure of "close ()".
+        exit (1);                                                                               // The process terminates with "exit value" 1.
     }
     
     return 0;
 }
 
-/*  ΕΝΔΕΙΚΤΙΚΑ ΤΡΕΞΙΜΑΤΑ
+
+/*  SAMPLE RUNS
     
-    #1 ./LS2-19390005-Δ4-Β-2-3-client Fibonacci_socket
+    #1 ./client Fibonacci_socket
     Input the size of Matrix : 10
     Seq[1] : 1
     Seq[2] : 2
@@ -132,7 +134,7 @@ int main (int argc, char *argv[])
     Press 0 for No
     Yes/No : 0
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||    
-    #2 ./LS2-19390005-Δ4-Β-2-3-client Fibonacci_socket
+    #2 ./client Fibonacci_socket
     Input the size of Matrix : 20
     Seq[1] : 34
     Seq[2] : 5
@@ -185,7 +187,7 @@ int main (int argc, char *argv[])
     Press 0 for No
     Yes/No : 0
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||    
-    #3 ./LS2-19390005-Δ4-Β-2-3-client Fibonacci_socket
+    #3 ./client Fibonacci_socket
     Input the size of Matrix : 10
     Seq[1] : 1
     Seq[2] : 2
@@ -217,7 +219,8 @@ int main (int argc, char *argv[])
     Press 0 for No
     Yes/No : 0
     
-    ΣΧΟΛΙΑ
+    COMMENTS
     
-    Τα προγράμματα των "clients" εκτελέστηκαν ταυτόχρονα και συνδεθήκανε με τον "server" (όπως και εξυπηρετήθηκαν) κατά αύξουσα σειρά (από τον "client" #1 εώς #3).
+    The "client" programs were executed simultaneously and connected to the "server" (as well as served) in increasing order (from "client" #1 to #3).
 */
+
