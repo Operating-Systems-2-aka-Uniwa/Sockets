@@ -1,155 +1,171 @@
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/255px-Flag_of_the_United_Kingdom_%281-2%29.svg.png)
+<p align="center">
+  <img src="https://www.especial.gr/wp-content/uploads/2019/03/panepisthmio-dut-attikhs.png" alt="UNIWA" width="150"/>
+</p>
+
+<p align="center">
+  <strong>UNIVERSITY OF WEST ATTICA</strong><br>
+  SCHOOL OF ENGINEERING<br>
+  DEPARTMENT OF COMPUTER ENGINEERING AND INFORMATICS
+</p>
+
+---
+
+<p align="center">
+  <strong>Operating Systems II</strong>
+</p>
+
+<h1 align="center">
+  UNIX-Domain Stream Sockets Communication for Fibonacci Sequence Validation
+</h1>
+
+<p align="center">
+  <strong>Vasileios Evangelos Athanasiou</strong><br>
+  Student ID: 19390005
+</p>
+
+<p align="center">
+  <a href="https://github.com/Ath21" target="_blank">GitHub</a> ·
+  <a href="https://www.linkedin.com/in/vasilis-athanasiou-7036b53a4/" target="_blank">LinkedIn</a>
+</p>
+
+<hr/>
+
+<p align="center">
+  <strong>Supervision</strong>
+</p>
+
+<p align="center">
+  Supervisor: Vasileios Mamalis, Professor
+</p>
+<p align="center">
+  <a href="https://ice.uniwa.gr/en/emd_person/vassilios-mamalis/" target="_blank">UNIWA Profile</a>
+</p>
+
+<p align="center">
+  Co-supervisor: Nikolaos Psarras, Applications Lecturer
+</p>
+
+<p align="center">
+  <a href="https://ice.uniwa.gr/en/emd_person/nikolaos-psarras/" target="_blank">UNIWA Profile</a> ·
+  <a href="https://www.linkedin.com/in/psarras-nikolas-20234183/" target="_blank">LinkedIn</a>
+</p>
+
+</hr>
+
+<p align="center">
+  Athens, June 2022
+</p>
+
+---
 
 # UNIX-Domain Stream Sockets Communication for Fibonacci Sequence Validation
 
-For the requested Assignment, click the link:
-[Assignment](Assignment/)
+This repository contains an assignment for **Operating Systems II**, focusing on inter-process communication using **UNIX-domain stream sockets** to validate Fibonacci number sequences exchanged between a client and a server.
 
-For the detailed Source Codes, click the link:
-[Code](Code/)
+---
 
-## Assignment Overview
+## Table of Contents
 
-This project involves creating two programs: a **server** program and a **client** program that can communicate using UNIX-domain stream sockets. The client will send a sequence of integers to the server, which will check if the sequence corresponds to the first N numbers of the Fibonacci sequence. The server will then send a response back to the client, indicating whether the sequence is valid or not.
+| Section | Folder/File | Description |
+|------:|-------------|-------------|
+| 1 | `assign/` | Assignment material |
+| 1.1 | `assign/ASK-2C-OS-II-LAB-2021-22.png` | Assignment description in English |
+| 1.2 | `assign/ΑΣΚ-2Γ-ΛΣ-ΙΙ-ΕΡΓ-2021-22.png` | Assignment description in Greek |
+| 2 | `src/` | Source code implementations |
+| 2.1 | `src/server.c` | Server program implementation |
+| 2.2 | `src/client.c` | Client program implementation |
+| 3 | `README.md` | Repository documentation |
 
-## Course Information
+---
 
-- **Course**: [Operating Systems II](https://ice.uniwa.gr/education/undergraduate/courses/operating-systems-ii/)
-- **Semester**: 4
-- **Program of Study**: [UNIWA](https://www.uniwa.gr/)
-- **Department**: [Informatics and Computer Engineering](https://ice.uniwa.gr/)
-- **Lab Instructor**: [Psarras Nikolaos](https://ice.uniwa.gr/emd_person/20879/)
-- **Academic Season**: 2021-2022
+## Project Overview
 
-## Student Information
+The project implements communication between two programs using **UNIX-domain stream sockets**:
 
-- **Name**: Athanasiou Vasileios Evangelos
-- **Student ID**: 19390005
-- **Status**: Undergraduate
+- A **server** program listens for client connections.
+- A **client** program sends a sequence of integers.
+- The server checks whether the received numbers match the **first N values of the Fibonacci sequence**.
+- The server returns a response indicating whether the sequence is valid.
 
-## Programs
+This assignment demonstrates inter-process communication techniques in Unix-like systems.
 
-### 1. Server Program
+---
 
-- **File**: `server.c`
-- **Functionality**: Listens for incoming connections from clients, receives a sequence of integers, checks if they match the Fibonacci sequence, and sends a response back to the client.
+## Objectives
 
-### 2. Client Program
+- Implement socket-based communication using UNIX-domain sockets.
+- Exchange structured data between client and server programs.
+- Validate Fibonacci sequences on the server side.
+- Return validation results to the client.
+- Demonstrate client-server interaction in a local system environment.
 
-- **File**: `client.c`
-- **Functionality**: Connects to the server, sends sequences of integers, and displays the server's response. It prompts the user for another sequence until the user decides to stop.
+---
+
+## Key Features
+
+- **Client–Server Communication**  
+  Programs communicate locally using UNIX sockets.
+
+- **Sequence Validation**  
+  Server verifies correctness of Fibonacci sequences.
+
+- **Interactive Client**  
+  Client allows repeated sequence submission.
+
+- **Local IPC Mechanism**  
+  Uses UNIX-domain sockets instead of network sockets.
+
+---
+
+## Program Structure
+
+### Server Program (`server.c`)
+1. Create UNIX-domain socket.
+2. Bind to a socket path.
+3. Listen for client connections.
+4. Receive integer sequences.
+5. Validate Fibonacci sequence.
+6. Send result back to client.
+
+### Client Program (`client.c`)
+1. Connect to server socket.
+2. Send integer sequences.
+3. Receive server response.
+4. Allow repeated user input.
+
+---
 
 ## Requirements
 
-- **Operating System**: Linux-based OS or any Unix-like system that supports UNIX-domain sockets.
-- **Compiler**: GCC (GNU Compiler Collection).
-- **Libraries**: Standard libraries for socket programming (`sys/socket.h`, `sys/un.h`, etc.).
+- **Operating System:** Linux or Unix-like OS
+- **Compiler:** GCC
+- **Libraries:** Standard socket programming libraries (`sys/socket.h`, `sys/un.h`, etc.)
 
-## Installation and Usage
+---
 
-### 1. Clone the Repository
-Download the repository to your local machine:
-```
+## Installation & Usage
+
+### 1. Clone Repository
+```bash
 git clone https://github.com/Operating-Systems-2-aka-Uniwa/Sockets.git
+cd Sockets
 ```
-### 2. Compile the Source Code
-Compile the server and client programs using the GCC compiler:
-```
+
+### 2. Compile Programs
+```bash
 gcc -o server server.c
 gcc -o client client.c
 ```
-### 3. Run the Programs
 
-1. **Start the Server**:
-   
-   Open a terminal and run the server program:
-   ```
-   ./server
-   ```
-2. **Start the client**:
-    
-    Open a terminal and run the client program with the right `socket path`:
-   ```
-   ./client Fibonacci_socket
-   ```
-
-
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/255px-Flag_of_Greece.svg.png)
-
-# Επικοινωνία μέσω Sockets Stream UNIX για Έλεγχο Ακολουθίας Fibonacci
-
-Για την απαιτούμενη Άσκηση, κάντε κλικ στον σύνδεσμο:
-[Άσκηση](Assignment/)
-
-Για τον λεπτομερή Κώδικα, κάντε κλικ στον σύνδεσμο:
-[Κώδικας](Code/)
-
-## Επισκόπηση Άσκησης
-
-Αυτό το έργο περιλαμβάνει τη δημιουργία δύο προγραμμάτων: ενός προγράμματος **server** και ενός προγράμματος **client** που μπορούν να επικοινωνούν χρησιμοποιώντας sockets stream UNIX. Ο client θα στείλει μια ακολουθία ακέραιων αριθμών στον server, ο οποίος θα ελέγξει αν η ακολουθία αντιστοιχεί στους πρώτους N αριθμούς της ακολουθίας Fibonacci. Στη συνέχεια, ο server θα στείλει μια απάντηση πίσω στον client, υποδεικνύοντας αν η ακολουθία είναι έγκυρη ή όχι.
-
-## Πληροφορίες Μαθήματος
-
-- **Μάθημα**: [Λειτουργικά Συστήματα II](https://ice.uniwa.gr/education/undergraduate/courses/operating-systems-ii/)
-- **Εξάμηνο**: 4
-- **Πρόγραμμα Σπουδών**: [UNIWA](https://www.uniwa.gr/)
-- **Τμήμα**: [Πληροφορική και Μηχανική Υπολογιστών](https://ice.uniwa.gr/)
-- **Εκπαιδευτής Εργαστηρίου**: [Ψαράς Νικόλαος](https://ice.uniwa.gr/emd_person/20879/)
-- **Ακαδημαϊκή Χρονιά**: 2021-2022
-
-## Πληροφορίες Φοιτητή
-
-- **Όνομα**: Αθανασίου Βασίλειος Ευάγγελος
-- **ΑΜ**: 19390005
-- **Κατάσταση**: Προπτυχιακός
-
-## Προγράμματα
-
-### 1. Πρόγραμμα Server
-
-- **Αρχείο**: `server.c`
-- **Λειτουργικότητα**: Ακούει για εισερχόμενες συνδέσεις από clients, δέχεται μια ακολουθία ακέραιων αριθμών, ελέγχει αν ταιριάζουν με την ακολουθία Fibonacci και στέλνει μια απάντηση πίσω στον client.
-
-### 2. Πρόγραμμα Client
-
-- **Αρχείο**: `client.c`
-- **Λειτουργικότητα**: Συνδέεται με τον server, στέλνει ακολουθίες ακέραιων αριθμών και εμφανίζει την απάντηση του server. Προτρέπει τον χρήστη για άλλη ακολουθία μέχρι ο χρήστης να αποφασίσει να σταματήσει.
-
-## Απαιτήσεις
-
-- **Λειτουργικό Σύστημα**: Λειτουργικό σύστημα βασισμένο σε Linux ή οποιοδήποτε Unix-like σύστημα που υποστηρίζει sockets stream UNIX.
-- **Μεταγλωττιστής**: GCC (GNU Compiler Collection).
-- **Βιβλιοθήκες**: Βασικές βιβλιοθήκες για προγραμματισμό sockets (`sys/socket.h`, `sys/un.h`, κ.λπ.).
-
-## Εγκατάσταση και Χρήση
-
-### 1. Κλωνοποίηση του Αποθετηρίου
-Κατεβάστε το αποθετήριο στον τοπικό υπολογιστή σας:
+### 3. Run Programs
+Start the server:
+```bash
+./server
 ```
-git clone https://github.com/Operating-Systems-2-aka-Uniwa/Sockets.git
+
+In another terminal, run the client:
+```bash
+./client Fibonacci_socket
 ```
-### 2. Μεταγλώττιση του Κώδικα
-Μεταγλωττίστε τα προγράμματα server και client χρησιμοποιώντας τον μεταγλωττιστή GCC:
-```
-gcc -o server server.c 
-gcc -o client client.c
-```
-### 3. Εκτέλεση των Προγραμμάτων
 
-1. **Ξεκινήστε τον Server**:
-   
-   Ανοίξτε ένα τερματικό και εκτελέστε το πρόγραμμα server:
-    ```
-    ./server
-    ```
-    
-2. **Ξεκινήστε τον Client**:
- 
-    Ανοίξτε ένα τερματικό και εκτελέστε το πρόγραμμα client με τη σωστή `διεύθυνση socket`:
-    ```
-   ./client Fibonacci_socket
-   ``` 
-
-
-
-
+The client sends sequences and receives validation results from the server.
