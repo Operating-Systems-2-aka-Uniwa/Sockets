@@ -8,6 +8,11 @@
   DEPARTMENT OF COMPUTER ENGINEERING AND INFORMATICS
 </p>
 
+<p align="center">
+  <a href="https://www.uniwa.gr" target="_blank">University of West Attica</a> ·
+  <a href="https://ice.uniwa.gr" target="_blank">Department of Computer Engineering and Informatics</a>
+</p>
+
 ---
 
 <p align="center">
@@ -52,13 +57,23 @@
 
 </hr>
 
+---
+
 <p align="center">
   Athens, June 2022
 </p>
 
 ---
 
-# UNIX-Domain Stream Sockets Communication for Fibonacci Sequence Validation
+<p align="center">
+  <img src="https://i.ytimg.com/vi/KEiur5aZnIM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD2L48A0icVeJNFTNeMEs92nvOvXA" width="250"/>
+</p>
+
+---
+
+# README
+
+## UNIX-Domain Stream Sockets Communication for Fibonacci Sequence Validation
 
 This repository contains an assignment for **Operating Systems II**, focusing on inter-process communication using **UNIX-domain stream sockets** to validate Fibonacci number sequences exchanged between a client and a server.
 
@@ -66,19 +81,20 @@ This repository contains an assignment for **Operating Systems II**, focusing on
 
 ## Table of Contents
 
-| Section | Folder/File | Description |
-|------:|-------------|-------------|
-| 1 | `assign/` | Assignment material |
-| 1.1 | `assign/ASK-2C-OS-II-LAB-2021-22.png` | Assignment description in English |
-| 1.2 | `assign/ΑΣΚ-2Γ-ΛΣ-ΙΙ-ΕΡΓ-2021-22.png` | Assignment description in Greek |
-| 2 | `src/` | Source code implementations |
-| 2.1 | `src/server.c` | Server program implementation |
-| 2.2 | `src/client.c` | Client program implementation |
-| 3 | `README.md` | Repository documentation |
+| Section | Folder/File                           | Description                       |
+| ------: | ------------------------------------- | --------------------------------- |
+|       1 | `assign/`                             | Assignment material               |
+|     1.1 | `assign/ASK-2C-OS-II-LAB-2021-22.png` | Assignment description in English |
+|     1.2 | `assign/ΑΣΚ-2Γ-ΛΣ-ΙΙ-ΕΡΓ-2021-22.png` | Assignment description in Greek   |
+|       2 | `src/`                                | Source code implementations       |
+|     2.1 | `src/server.c`                        | Server program implementation     |
+|     2.2 | `src/client.c`                        | Client program implementation     |
+|       3 | `README.md`                           | Project documentation             |
+|       4 | `INSTALL.md`                          | Usage instructions                |
 
 ---
 
-## Project Overview
+## 1. Project Overview
 
 The project implements communication between two programs using **UNIX-domain stream sockets**:
 
@@ -91,7 +107,7 @@ This assignment demonstrates inter-process communication techniques in Unix-like
 
 ---
 
-## Objectives
+## 2. Objectives
 
 - Implement socket-based communication using UNIX-domain sockets.
 - Exchange structured data between client and server programs.
@@ -101,7 +117,7 @@ This assignment demonstrates inter-process communication techniques in Unix-like
 
 ---
 
-## Key Features
+## 3. Key Features
 
 - **Client–Server Communication**  
   Programs communicate locally using UNIX sockets.
@@ -117,9 +133,10 @@ This assignment demonstrates inter-process communication techniques in Unix-like
 
 ---
 
-## Program Structure
+## 4. Program Structure
 
-### Server Program (`server.c`)
+### 4.1 Server Program (`server.c`)
+
 1. Create UNIX-domain socket.
 2. Bind to a socket path.
 3. Listen for client connections.
@@ -127,45 +144,9 @@ This assignment demonstrates inter-process communication techniques in Unix-like
 5. Validate Fibonacci sequence.
 6. Send result back to client.
 
-### Client Program (`client.c`)
+### 4.2 Client Program (`client.c`)
+
 1. Connect to server socket.
 2. Send integer sequences.
 3. Receive server response.
 4. Allow repeated user input.
-
----
-
-## Requirements
-
-- **Operating System:** Linux or Unix-like OS
-- **Compiler:** GCC
-- **Libraries:** Standard socket programming libraries (`sys/socket.h`, `sys/un.h`, etc.)
-
----
-
-## Installation & Usage
-
-### 1. Clone Repository
-```bash
-git clone https://github.com/Operating-Systems-2-aka-Uniwa/Sockets.git
-cd Sockets
-```
-
-### 2. Compile Programs
-```bash
-gcc -o server server.c
-gcc -o client client.c
-```
-
-### 3. Run Programs
-Start the server:
-```bash
-./server
-```
-
-In another terminal, run the client:
-```bash
-./client Fibonacci_socket
-```
-
-The client sends sequences and receives validation results from the server.
